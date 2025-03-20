@@ -7,3 +7,4 @@ seaborn
 scipy
 plotly
 scikit-learn
+altair

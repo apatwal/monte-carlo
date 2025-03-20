@@ -13,6 +13,9 @@ from backend.data_collection import fetch_stock_data
 # st.title('Monte Carlo Asset Pricing Simulation')
 st.title('📈 Stock Data Viewer')
 
+# Create page navigation
+st.sidebar.info("Select Page")
+
 # create input fields
 ticker = st.text_input("Enter Stock Ticker (e.g., MSFT, AAPL):", value="MSFT")
 start_date = st.date_input("Select Start Date")
