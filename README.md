@@ -7,9 +7,11 @@ This project focuses on automating stock data retrieval, cleaning, and transform
 Instructions to run this...
 
 (Highly recommend using a virtual environment)
+
 python3 -m venv venv
 
 Mac/Linux users => source venv/bin/activate
+
 Windows => venv\Scripts\activate
 
 pip install -r backend/requirements.txt
