@@ -1,0 +1,1 @@
+Created dashboard to fetch a stocks data given certain inputs: ticker, start date, end date, interval
