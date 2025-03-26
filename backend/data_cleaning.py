@@ -84,7 +84,8 @@ def clean_and_prepare_data(df, save_path=None):
     processed_df['Volatility_5d'] = processed_df['Daily_Return'].rolling(window=5).std()
     
 
-    processed_df['MA_5d'] = processed_df[price_col].rolling(window=5).mean()
+    processed_df['MA_50d'] = processed_df[price_col].rolling(window=50).mean()
+    processed_df['MA_20d'] = processed_df[price_col].rolling(window=20).mean()
     
 
     if 'Volume' in processed_df.columns:
