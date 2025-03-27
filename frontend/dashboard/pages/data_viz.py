@@ -55,33 +55,29 @@ st.markdown(f"""
 
 def close_line():
     close_line = alt.Chart(data).mark_line(color = "red").encode(
-        x = "Date",
+        x = "Date:T",
         y = "Close",
-        tooltip = ["Date", "Closing Price"]
     ).interactive()
 
     return close_line
 
 def return_line():
     return_line = alt.Chart(data).mark_line(color = "green").encode(
-        x = "Date",
+        x = "Date:T",
         y = "Daily_Return",
-        tooltip=["Date", "Day Percent Return"]
     ).interactive()
     return return_line
 
 def moving_avg(win):
     if win == 50:
         ma_line = alt.Chart(data).mark_line(color="blue").encode(
-            x="Date",
+            x="Date:T",
             y="MA_50d",
-            tooltip=["Date", "Moving Avg. Value"]
         ).interactive()
     elif win == 20:
         ma_line = alt.Chart(data).mark_line(color="blue").encode(
-            x="Date",
+            x="Date:T",
             y="MA_20d",
-            tooltip=["Date", "Moving Avg. Value"]
         ).interactive()
     return ma_line
 
