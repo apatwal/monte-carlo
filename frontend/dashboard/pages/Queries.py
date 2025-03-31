@@ -9,5 +9,6 @@ data_folder = os.path.join(project_root, "data")
 st.header("Queries Already Made")
 
 queries = pd.read_csv(os.path.join(data_folder, "queries.csv"))
+queries = queries.drop_duplicates()
 
 st.write(queries)
