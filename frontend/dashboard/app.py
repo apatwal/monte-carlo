@@ -23,20 +23,12 @@ end_date = st.date_input("Select End Date")
 intervals = ["1m", "2m", "5m", "15m", "30m", "60m", "90m", "1h", "1d", "5d", "1wk", "1mo", "3mo"]
 interval = st.selectbox("Select Interval", intervals, index=intervals.index("1d"))
 
-if ticker:
-    st.session_state.ticker = ticker
-
-if start_date:
-    st.session_state.start_date = start_date
-
-if end_date:
-    st.session_state.end_date = end_date
-
-if interval:
-    st.session_state.interval = interval
-
 # create a button to fetch the data
 if st.button("Fetch Data"):
+    st.session_state.ticker = ticker
+    st.session_state.start_date = start_date
+    st.session_state.end_date = end_date
+    st.session_state.interval = interval
     if start_date >= end_date:
         st.error("End date must be after start date.")
     else:
@@ -50,10 +42,8 @@ if st.button("Fetch Data"):
         clean = clean_and_prepare_data(df, save_path = file_path)
 
         # Add query to list of queries file
-        queries = pd.read_csv(os.path.join(data_folder, "queries.csv"))
-        new_file = pd.DataFrame({"filenames": [filename]})
-        queries = pd.concat([queries, new_file], ignore_index = True)
-        queries.to_csv(os.path.join(data_folder, "queries.csv"))
+        with open(os.path.join(data_folder, "queries.csv"), "a") as outfile:
+            outfile.write(filename + "\n")
 
         if df is not None:
             st.subheader(f"Stock Data for {ticker}")
