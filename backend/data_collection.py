@@ -20,7 +20,7 @@ def fetch_stock_data(ticker, start_date, end_date, interval="1d"):
     
 def save_stock_data_toCSV(ticker, start_date, end_date, intervals = "1d"):
     raw_data_dir = os.path.join(os.path.dirname(__file__), '../data/raw')
-    filename = f"{ticker}_{start_date}_to_{end_date}.csv"
+    filename = f"{ticker}_{start_date}_to_{end_date}_{intervals}.csv"
     file_path = os.path.join(raw_data_dir, filename)
     stock_data = fetch_stock_data(ticker, start_date, end_date, intervals)
     stock_data.to_csv(file_path)

@@ -9,12 +9,13 @@ current_file = os.path.abspath(__file__)
 project_root = os.path.abspath(os.path.join(current_file, "../../../../"))
 data_folder = os.path.join(project_root, "data", "processed")
 
-ticker = st.session_state.get('ticker')
-start_date = st.session_state.get('start_date')
-end_date = st.session_state.get('end_date')
+ticker = st.session_state.get("ticker")
+start_date = st.session_state.get("start_date")
+end_date = st.session_state.get("end_date")
+interval = st.session_state.get("interval")
 
 
-filename = f"{ticker}_{start_date}_to_{end_date}_processed.csv"
+filename = f"{ticker}_{start_date}_to_{end_date}_{interval}_processed.csv"
 data_path = os.path.join(data_folder, filename)
 try:
     data = pd.read_csv(data_path)
@@ -69,6 +70,7 @@ def return_line():
     return return_line
 
 def moving_avg(win):
+    # Add legend
     if win == 50:
         ma_line = alt.Chart(data).mark_line(color="blue").encode(
             x="Date:T",
@@ -81,6 +83,12 @@ def moving_avg(win):
         ).interactive()
     return ma_line
 
+def volatility_line():
+    v_line = alt.Chart(data).mark_line(color="purple").encode(
+        x="Date:T",
+        y="Volatility_5d",
+    ).interactive()
+    return v_line
 
 st.subheader(f"Closing Price From {start_date} to {end_date}")
 st.altair_chart(close_line())
@@ -91,4 +99,10 @@ st.altair_chart(return_line())
 st.subheader("Moving Average Chart")
 ma_win = st.selectbox("Window Size", (20, 50))
 st.altair_chart(close_line() + moving_avg(ma_win))
+
+st.subheader("Volatility Chart")
+st.markdown("""
+We define volatility as the standard deviation in returns on a 5 day rolling basis.
+""")
+st.altair_chart(volatility_line())
 
