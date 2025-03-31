@@ -28,5 +28,3 @@ def save_stock_data_toCSV(ticker, start_date, end_date, intervals = "1d"):
     return
 
 
-df = fetch_stock_data('MSFT', '2025-03-10', '2025-03-20')
-print(df)

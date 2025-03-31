@@ -37,7 +37,7 @@ return_var = float(data["Daily_Return"].var())
 return_std = float(return_stats["std"])
 
 
-st.subheader("Basic Stats")
+st.subheader(f'{ticker}\'s Basic Stats')
 st.markdown(f"""
 📊 Price
 - **Mean:** `{price_mean:.4f}`
