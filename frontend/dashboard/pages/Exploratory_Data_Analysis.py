@@ -2,6 +2,8 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 import os
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 st.title("Exploratory Data Analysis")
 
@@ -30,6 +32,10 @@ if "return_file" not in st.session_state:
 if "ma_file" not in st.session_state:
     st.session_state.ma_file = None
 if "vol_file" not in st.session_state:
+    st.session_state.vol_file = None
+if "corr_file1" not in st.session_state:
+    st.session_state.vol_file = None
+if "corr_file1" not in st.session_state:
     st.session_state.vol_file = None
 
 st.subheader("Basic Stats")
@@ -106,6 +112,19 @@ def volatility_line(vol_data):
     ).interactive()
     return v_line
 
+def corr_map(data1, data2, file1, file2):
+    str_cols = ["Date"]
+    data1 = data1.drop(str_cols, axis = 1)
+    data2 = data2.drop(str_cols, axis = 1)
+    corrs = pd.DataFrame({col: data1.corrwith(data2[col]) for col in data2.columns}, index=data1.columns)
+    fig, ax = plt.subplots()
+    sns.heatmap(corrs, xticklabels = data1.columns, yticklabels = data2.columns, ax = ax,
+                annot = True, annot_kws={"fontsize":7})
+    plt.xlabel(file1)
+    plt.ylabel(file2)
+    return fig
+
+
 st.subheader(f"Closing Price")
 close_file = st.selectbox("Select File from Previously Fetched Data", queries["filename"],
                           index = st.session_state.close_file, key = "close")
@@ -150,3 +169,20 @@ if vol_file:
 else:
     st.markdown("""Select a dataset from the menu to display data""")
 
+st.subheader(f"Correlation Heatmap")
+corr_file1 = st.selectbox("Select File from Previously Fetched Data", queries["filename"],
+                        index = st.session_state.vol_file, key = "corr1")
+corr_file2 = st.selectbox("Select File from Previously Fetched Data", queries["filename"],
+                        index = st.session_state.vol_file, key = "corr2")
+st.markdown("This plot represents a correlation matrix between all the features we have on two different stocks.")
+if corr_file1 and corr_file2:
+    st.session_state.corr_file1 = corr_file1
+    st.session_state.corr_file2 = corr_file2
+    corr_data1 = pd.read_csv(os.path.join(data_folder, "processed", corr_file1))
+    corr_data2 = pd.read_csv(os.path.join(data_folder, "processed", corr_file2))
+    st.pyplot(corr_map(corr_data1, corr_data2, corr_file1, corr_file2))
+else:
+    st.markdown("""Select datasets for both fields to display a plot""")
+
+st.markdown("""*Note*: Columns may appear blank if query is not long enough for moving averages to be calculated
+:sunglasses:""")
