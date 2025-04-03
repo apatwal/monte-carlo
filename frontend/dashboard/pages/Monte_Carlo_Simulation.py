@@ -2,7 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from backend.monte_carlo import montecarlosim
 
-st.title("Monte Carlo Pricing Simualtion")
+st.title("Monte Carlo Pricing Simulation")
 
 
 ticker = st.session_state.get("ticker")
